@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
   //maxIterations = 200; //para GA
 
   double cpu_timeit = 0.0;
-
+  
   for(int it=0;it<maxExec;it++){
     // Executa as heuristicas.
     int  cost, permutation[MAXPATH]; //numPath, cost,
