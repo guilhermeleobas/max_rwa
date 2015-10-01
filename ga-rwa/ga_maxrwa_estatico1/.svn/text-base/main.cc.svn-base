@@ -1,0 +1,117 @@
+/*********************************/
+/* Copyright 2009 Thiago Noronha */
+/*********************************/
+
+#include <assert.h>
+#include <limits.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <fstream>
+#include <iostream>
+
+#include "./bibrand.h"
+#include "./binrwa.h"
+#include "./instance.h"
+
+using std::cout;
+using std::endl;
+
+inline void exchange(int& i, int& j) {
+  int aux = i;
+  i = j;
+  j = aux;
+}
+
+int main(int argc, char** argv) {
+  int seed;
+  int maxIterations;
+  int target;
+  char network[256];
+  char traffic[256];
+  char alg[256];
+
+  // Le os dados de entrada.
+  if (argc != 7) {
+    cout << "./rwa <network> <traffic> <algorithm> "
+         << "<iterations> <target> <seed>\n";
+    abort();
+  }
+  strcpy(network, argv[1]);
+  strcpy(traffic, argv[2]);
+  strcpy(alg, argv[3]);
+  maxIterations = atoi(argv[4]);
+  target = atoi(argv[5]);
+  seed = atoi(argv[6]);
+
+  // Executa as heuristicas.
+  int numPath, cost, permutation[MAXPATH];
+  int best = INT_MAX;
+  int worst = 0;
+  double soma = 0;
+  int i = 1;
+
+  Instance::initInstance(network, traffic);
+  Instance* inst = Instance::getInstance();
+
+  Bibrand::Initialize(seed);
+  Bibrand *gna = Bibrand::GetInstance();
+
+  BinRWA binRWA;
+  numPath = inst->getNumPath();
+
+
+  // Itera sobre as heuristicas.
+  i = 0;
+  do {
+    if (strcmp(alg, "FF") == 0) {
+      for (int j = 0;j < numPath;j++) {
+        permutation[j] = j;
+      }
+      for (int j = 0;j < numPath;j++) {
+        exchange(permutation[j],
+                 permutation[j+gna->IntRand(0, numPath - j - 1)]);
+      }
+      cost = binRWA.ff(permutation);
+    } else if (strcmp(alg, "BF") == 0) {
+      for (int j = 0;j < numPath;j++)
+        permutation[j] = j;
+      for (int j = 0;j < numPath;j++)
+        exchange(permutation[j],
+                 permutation[j+gna->IntRand(0, numPath - j - 1)]);
+      cost = binRWA.bf(permutation);
+    } else if (strcmp(alg, "FFD") == 0) {
+      cost = binRWA.ffd();
+    } else if (strcmp(alg, "BFD") == 0) {
+      cost = binRWA.bfd();
+    } else {
+      cout << "Error: <algorithm> must be "
+           << "{FF or BF or FFD or BFD or GA}\n";
+      abort();
+    }
+    soma += cost;
+    if (cost > worst)
+      worst = cost;
+    if (cost < best)
+      best = cost;
+    if (best <= target) {
+      i++;
+      break;
+    }
+    i++;
+  }while (i < maxIterations || maxIterations <= 0);
+
+  cout << argv[1] << " "
+       << argv[2] << " "
+       << argv[3] << " "
+       << argv[4] << " "
+       << argv[5] << " "
+       << argv[6] << " | "
+       << best << " | "
+       << (soma/(i)) << " | "
+       << worst << " | "
+       << i << " ";
+  cout << endl;
+}
