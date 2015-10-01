@@ -83,7 +83,12 @@ void BinRWA::decreasing(int permutation[MAXPATH], double *tieBreak) {
   }
 
   quickSort < int>(key, permutation, 0, numPath-1);
-
+  
+  for (int i = 0; i < numPath; i++){
+    int pos = permutation[i];
+    tieBreak[pos] = static_cast<double> (1.0/numPath);
+    tieBreak[pos] *= (i);
+  }
 }
 
 // Define uma permutacao com ordem crescente de caminhos mais curtos
@@ -102,6 +107,8 @@ void BinRWA::creasing(int permutation[MAXPATH], double *tieBreak) {
   }
   quickSort < int>(key, permutation, 0, numPath-1);
 
+  
+  
 }
 
 /* Destrutor
