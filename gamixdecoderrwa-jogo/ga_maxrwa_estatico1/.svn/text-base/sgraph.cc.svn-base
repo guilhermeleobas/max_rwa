@@ -1,0 +1,226 @@
+#include<iostream>
+#include<fstream>
+#include<string.h>
+#include <assert.h>
+#include<stdlib.h>
+#include<stdio.h>
+
+#include"graph.h"
+#include"heap.h"
+//#include"heapBucket.h"
+#include"linkedset.h"
+#include"quicksort.h"
+
+using namespace std;
+
+
+/****************************************************************************************/
+/*************************** CLASE NRRtGraph *************************************/
+/****************************************************************************************/
+
+
+
+/* Construtor 1
+**********************************************************************/
+
+NRRtGraph::NRRtGraph(SimpleGraph *graph,int* w)
+	:SimpleGraph(graph,w)
+{
+	initialize(w); 
+}
+
+/* Construtor 2
+**********************************************************************/
+
+NRRtGraph::NRRtGraph(int nVertices,int nArcs,int lArcs[MAXARCS][2],int* w)
+	:SimpleGraph(nVertices,nArcs,lArcs,w)
+{
+	initialize(w);
+}
+
+
+/* Cria uma nova copia do grafo original
+***********************************************************************/
+
+void NRRtGraph::initialize(int* w){
+	for(int i=0;i<numVertices;i++){
+		makeBFS(i);
+	}
+}
+
+/* Calcula a arvore de BFS partindo do no "s"
+*********************************************************************/
+void NRRtGraph::makeBFS(int s){
+	//updates++;
+	int queue[MAXVERT][MAXVERT]; // Fila usada na BFS
+	int first=0; // ind comeco da fila
+	int last=0; // ind final da fila
+	int u,v;
+	int *distanceS=distance[s];
+	int *parentS=parent[s];
+
+	// Inicializa as variaveis 
+	for(int i=0;i<numVertices;i++){
+		distanceS[i] = INF;
+	}
+
+	// Acha o caminho mais curto de s para todos os outros
+	queue[s][last++]=s;
+	parentS[s]=s;
+	distanceS[s]=0;
+	do{
+		u = queue[s][first];
+		for(int i=0;i<outDegree[u];i++){
+			v = outList[u][i];
+			if(distanceS[v]==INF){
+				parentS[v] = u;
+				distanceS[v] = distanceS[u]+1;
+				queue[s][last++] = v;
+			}
+		}
+		first++;
+	}while(first<last);
+}
+
+/* Calcula o caminho mais curto entre dois terminais
+*********************************************************************/
+int NRRtGraph::shortestPath(int s,int t,int *path,int &size){
+	if(distance[s][t]==INF){
+		size=INF;
+	} else {
+		size=0;		
+		path[size] = t;
+		while(path[size]!=s){
+			if(in(parent[s][path[size]],path[size])){
+				path[size+1]=parent[s][path[size]];
+				size++;
+			} else {
+				// Caso a aresta tenha sido apagada recalcula a BFS tree
+				makeBFS(s);	
+				return shortestPath(s,t,path,size);
+			}
+		}
+	}
+	assert(size==distance[s][t]);
+	return size;
+}
+
+
+
+
+
+/**************************************************************************************************/
+/*                                   CLASSE NRRgGraph                                         */
+/**************************************************************************************************/
+
+
+
+/* Construtor 1
+**********************************************************************/
+
+NRRgGraph::NRRgGraph(SimpleGraph *graph,int* w)
+	:SimpleGraph(graph,w)
+{
+	initialize(w); 
+}
+
+/* Construtor 2
+**********************************************************************/
+
+NRRgGraph::NRRgGraph(int nVertices,int nArcs,int lArcs[MAXARCS][2],int* w)
+	:SimpleGraph(nVertices,nArcs,lArcs,w)
+{
+	initialize(w);
+}
+
+
+/* Cria uma nova copia do grafo original
+***********************************************************************/
+
+void NRRgGraph::initialize(int* w){
+	for(int i=0;i<numVertices;i++){
+		makeBFS(i);
+	}
+}
+
+/* Calcula a arvore de BFS partindo do no "s"
+*********************************************************************/
+
+void NRRgGraph::makeBFS(int s,int t){
+	updates++;
+	int queue[MAXVERT][MAXVERT]; // Fila usada na BFS
+	int first=0; // ind comeco da fila
+	int last=0; // ind final da fila
+	int u,v;
+
+	int *distanceS=distance[s];
+	int *nbParentS=nbParents[s];
+
+	// Inicializa as variaveis 
+	for(int i=0;i<numVertices;i++){
+		nbParentS[i]=0;
+		distanceS[i] = INF;
+	}
+
+	// Acha o caminho mais curto de s para todos os outros
+	queue[s][last++]=s;
+	parents[s][s][0]=s;
+	distanceS[s]=0;
+	do{
+		u = queue[s][first];
+		for(int i=0;i<outDegree[u];i++){
+			v = outList[u][i];
+			if(nbParentS[v]==0){
+				parents[s][v][0] = u;
+				nbParentS[v]++;
+				distanceS[v] = distanceS[u]+1;
+				queue[s][last++] = v;
+			} else if(distanceS[v]==distanceS[u]+1){
+				parents[s][v][nbParentS[v]++] = u;
+				assert(nbParentS[v]<MAXDEG);
+			}
+		}
+		first++;
+	}while(first<last);
+}
+
+/* Calcula o caminho mais curto entre dois terminais
+*********************************************************************/
+
+int NRRgGraph::shortestPath(int s,int t,int *path,int &size){
+	int flag;
+	if(distance[s][t]==INF){
+		size=INF;
+	} else {
+		size=0;		
+		path[size] = t;
+		while(path[size]!=s){
+			path[size+1]=parents[s][path[size]][nbParents[s][path[size]]-1];
+			if(in(path[size+1],path[size])){
+				size++;
+			} else {
+				flag=1;
+				nbParents[s][path[size]]--;
+				while(nbParents[s][path[size]]>0){
+					path[size+1]=parents[s][path[size]][nbParents[s][path[size]]-1];
+					if(in(path[size+1],path[size])){
+						size++;
+						flag=0;
+						break;
+					} else {
+						nbParents[s][path[size]]--;
+					}
+				}
+				// Caso a aresta tenha sido apagada recalcula a BFS tree
+				if(flag){
+					makeBFS(s);	
+					return shortestPath(s,t,path,size);
+				}
+			}
+		}
+	}
+	assert(size==distance[s][t]);
+	return size;
+}
+
+
