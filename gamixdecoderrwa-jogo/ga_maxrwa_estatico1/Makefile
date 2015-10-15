@@ -1,4 +1,4 @@
-CC = c++ -Wall -static #-pg  -O3
+CC = c++ -Wall #-pg  -O3
 
 LIBS = -L ../keyframe -l fw
 OBJS = graph.o instance.o solution.o binrwa.o
