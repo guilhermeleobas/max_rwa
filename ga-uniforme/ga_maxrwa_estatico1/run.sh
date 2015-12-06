@@ -24,24 +24,3 @@ do
  echo -e "Instancia $probl\n"
  ./rwa instances/table4/w30/$probl.net instances/table4/w30/$probl.trf  GA 1 0 1 >> saida.txt 
 done
-
-echo "Resolvendo o MS-SPT para W=10"
-for probl in "${PS2[@]}"
-do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w10/$probl.net instances/table4/w10/$probl.trf  SPT 1 0 1 >> saida.txt 
-done
-
-echo "Resolvendo o MS-SPT para W=20"
-for probl in "${PS2[@]}"
-do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w20/$probl.net instances/table4/w20/$probl.trf  SPT 1 0 1 >> saida.txt 
-done
-
-echo "Resolvendo o MS-SPT para W=30"
-for probl in "${PS3[@]}"
-do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w30/$probl.net instances/table4/w30/$probl.trf  SPT 1 0 1 >> saida.txt 
-done

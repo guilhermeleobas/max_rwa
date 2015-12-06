@@ -111,7 +111,6 @@ int main(int argc, char** argv) {
     int i = 1;
 
     Chronometer c1; //Para calcular o tempo
-
     if (strcmp(alg, "GA") == 0) {
       maxIterations = 200; //para GA
       int chromoSize = inst->getNumPath();
