@@ -87,11 +87,13 @@ void BinRWA::decreasing(int permutation[MAXPATH], double *tieBreak) {
 
 // Define uma permutacao com ordem crescente de caminhos mais curtos
 void BinRWA::creasing(int permutation[MAXPATH], double *tieBreak) {
+
   Bibrand *rand = Bibrand::GetInstance();
   double key[MAXPATH];
 
   // ordenar apenas pela chave/cromossomo.
   for (int i=0; i<numPath; i++){
+    permutation[i] = i;
     key[i] = static_cast<double>(tieBreak[i]);
   }
 
@@ -103,6 +105,9 @@ void BinRWA::creasing(int permutation[MAXPATH], double *tieBreak) {
     tieBreak[pos] *= (i);
   }
 
+  for (int i=0; i<numPath; i++){
+    assert (tieBreak[i] < 1.0);
+  }
 }
 
 /* Destrutor
