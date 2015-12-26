@@ -33,7 +33,7 @@ return static_cast<double>(-rpt(permut)); //o sinal de menos eh adaptcao para ma
 
 //========GA-LPT========================
 //decreasing(permut, chromo);
-//return static_cast<double>(-rpt(permut)); //o sinal de menos eh adaptcao para maxrwa 
+//return static_cast<double>(-rpt(permut)); //o sinal de menos eh adaptcao para maxrwa
 //======================================
 
 }
@@ -83,17 +83,6 @@ void BinRWA::decreasing(int permutation[MAXPATH], double *tieBreak) {
   }
 
   quickSort < int>(key, permutation, 0, numPath-1);
-
-  // for (int i=0; i<numPath; i++){
-  //   cout << key[i] << ' ';
-  // }
-  // cout << endl;
-  
-  // for (int i = 0; i < numPath; i++){
-  //   int pos = permutation[i];
-  //   tieBreak[pos] = static_cast<double> (1.0/numPath);
-  //   tieBreak[pos] *= (i);
-  // }
 }
 
 // Define uma permutacao com ordem crescente de caminhos mais curtos
@@ -118,7 +107,7 @@ void BinRWA::creasing(int permutation[MAXPATH], double *tieBreak) {
     tieBreak[pos] = static_cast<double> (1.0/numPath);
     tieBreak[pos] *= (i);
   }
-  
+
 }
 
 /* Destrutor
@@ -145,7 +134,7 @@ int BinRWA::fit(int permutation[MAXPATH], int ff) {
 
   int best;  // Melhor bin para colocar o caminho
   int bestSize;  // Tamanho do caminho no melhor bin
-  
+
   int demand = 0; //maxrwa
 
 
@@ -178,20 +167,21 @@ int BinRWA::fit(int permutation[MAXPATH], int ff) {
       bins[best]->deleteArcs(path, size);
       demand++; //maxrwa
     // se nao, cria outro bin
-    } else {
-       if ( numBins < numWmax){ //maxrwa
+    } 
+    else {
+      if ( numBins < numWmax){ //maxrwa
         if (bins[numBins] == NULL){
-        bins[numBins]= new Graph(inst->getGraph());
-        } else {        
-        bins[numBins]->reset();
+          bins[numBins]= new Graph(inst->getGraph());
+        } else {
+          bins[numBins]->reset();
         }
-       bins[numBins]->shortestPath(t.o, t.d, path, size);
-       sol.addPath(t, numBins+1, path, size);
-       bins[numBins]->deleteArcs(path, size);
-       numBins++;
-       demand++;//maxrwa
-     }
-   }
+        bins[numBins]->shortestPath(t.o, t.d, path, size);
+        sol.addPath(t, numBins+1, path, size);
+        bins[numBins]->deleteArcs(path, size);
+        numBins++;
+        demand++;//maxrwa
+      }
+    }
   }
 
   sol.setNumDemand(demand);//maxrwa
@@ -214,7 +204,7 @@ int BinRWA::fit2(int permutation[MAXPATH], int ff) {
 
   int best;  // Melhor bin para colocar o caminho
   int bestSize;  // Tamanho do caminho no melhor bin
-  
+
   int demand = 0; //maxrwa
   numBins = numWmax;//maxrwa
 
@@ -222,9 +212,9 @@ int BinRWA::fit2(int permutation[MAXPATH], int ff) {
    for(i =0; i<numWmax; i++){
      if (bins[i] == NULL){
       bins[i]= new Graph(inst->getGraph());
-     }else{        
+     }else{
        bins[i]->reset();
-     }    
+     }
    }
 
   // Insere um caminho por vez
@@ -254,7 +244,7 @@ int BinRWA::fit2(int permutation[MAXPATH], int ff) {
       sol.addPath(t, best+1, path, size);
       bins[best]->deleteArcs(path, size);
       demand++; //maxrwa
-    } 
+    }
   }
   	sol.setNumDemand(demand);//maxrwa
 
