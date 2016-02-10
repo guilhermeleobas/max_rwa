@@ -171,15 +171,9 @@ int BinRWA::fit(int permutation[MAXPATH], int ff) {
     else {
       if ( numBins < numWmax){ //maxrwa
         if (bins[numBins] == NULL){
-<<<<<<< HEAD
           bins[numBins]= new Graph(inst->getGraph());
         } else {
           bins[numBins]->reset();
-=======
-        bins[numBins]= new Graph(inst->getGraph());
-        } else {
-        bins[numBins]->reset();
->>>>>>> b3afbdc54bd1d62ad1d1efb7b27f6e280a03c9a2
         }
         bins[numBins]->shortestPath(t.o, t.d, path, size);
         sol.addPath(t, numBins+1, path, size);
