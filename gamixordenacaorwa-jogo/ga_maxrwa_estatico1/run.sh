@@ -1,49 +1,22 @@
 #!/bin/bash
 
-PS2=("ATT" "ATT2" "Finland" "NSF3" "NSF12" "NSF212" "NSF1" "NSF48" "NSF21" "NSF23" "NSF248" "brasil" "cost266" "dfn-bwin" "dfn-gwin" "EON" "france" "giul" "janos-us" "nobel-eu" "nobel-germany" "nobel-us" "norway" "sun") 
+EON_trf="EON-ts"
+EON_net=("EON-ts.W10" "EON-ts.W11" "EON-ts.W12" "EON-ts.W13" "EON-ts.W14" "EON-ts.W15" "EON-ts.W16" "EON-ts.W17" "EON-ts.W18" "EON-ts.W19" "EON-ts.W20" "EON-ts.W21" "EON-ts.W22" "EON-ts.W23" "EON-ts.W24")
 
-PS3=("NSF48" "NSF248" "NSF12" "NSF212" "ATT2" "Finland" "brasil" "cost266" "dfn-bwin" "dfn-gwin" "france" "giul" "janos-us" "nobel-eu" "nobel-germany" "nobel-us" "norway" "sun")
+NSF_trf="nsfnet-ts"
+NSF_net=("nsfnet-ts.W10" "nsfnet-ts.W11" "nsfnet-ts.W12" "nsfnet-ts.W13" "nsfnet-ts.W14" "nsfnet-ts.W15" "nsfnet-ts.W16" "nsfnet-ts.W17" "nsfnet-ts.W18" "nsfnet-ts.W19" "nsfnet-ts.W20" "nsfnet-ts.W21" "nsfnet-ts.W22" "nsfnet-ts.W23" "nsfnet-ts.W24" "nsfnet-ts")
 
-echo "Resolvendo o GA-SPT para W=10"
-for probl in "${PS2[@]}"
+echo "Resolvendo o EON para GAMixOrdenacao"
+for probl in "${EON_net[@]}"
 do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w10/$probl.net instances/table4/w10/$probl.trf  GA 1 0 1 >> saida.txt 
+ echo -e "Instancia $probl $EON_trf\n"
+  ./rwa instances/set-d/eon/$probl.net instances/set-d/eon/$EON_trf.trf GA 1 0 1 >> saida.txt
 done
 
-echo "Resolvendo o GA-SPT para W=20"
-for probl in "${PS2[@]}"
-do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w20/$probl.net instances/table4/w20/$probl.trf  GA 1 0 1 >> saida.txt 
-done
 
-echo "Resolvendo o GA-SPT para W=30"
-for probl in "${PS3[@]}"
+echo "Resolvendo o NSF para GAMixOrdenacao"
+for probl in "${NSF_net[@]}"
 do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w30/$probl.net instances/table4/w30/$probl.trf  GA 1 0 1 >> saida.txt 
+  echo -e "Instancia $probl $NSF_trf\n"
+  ./rwa instances/set-d/nsf/$probl.net instances/set-d/nsf/$EON_trf.trf GA 1 0 1 >> saida.txt
 done
-
-'
-echo "Resolvendo o MS-SPT para W=10"
-for probl in "${PS2[@]}"
-do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w10/$probl.net instances/table4/w10/$probl.trf  SPT 1 0 1 >> saida.txt 
-done
-
-echo "Resolvendo o MS-SPT para W=20"
-for probl in "${PS2[@]}"
-do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w20/$probl.net instances/table4/w20/$probl.trf  SPT 1 0 1 >> saida.txt 
-done
-
-echo "Resolvendo o MS-SPT para W=30"
-for probl in "${PS3[@]}"
-do
- echo -e "Instancia $probl\n"
- ./rwa instances/table4/w30/$probl.net instances/table4/w30/$probl.trf  SPT 1 0 1 >> saida.txt 
-done
-'
