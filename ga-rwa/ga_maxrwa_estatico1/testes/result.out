@@ -1,6 +1,18 @@
-GA instances/table4/w10/ATT.net instances/table4/w10/ATT.trf
-GA instances/table4/w10/ATT.net instances/table4/w10/ATT.trf
-239   600.17 1
- Media = 239.00
- Tempo Medio = 602.62
- Tempo Medio CPU = 600.17
+GA instances/set-d/eon/EON-ts.W10.net instances/set-d/eon/EON-ts.trf
+279   2.01 1
+279   2.00 7
+279   2.00 14
+279   2.01 20
+280   2.00 25
+279   2.00 60
+278   2.00 100
+280   2.00 116
+279   2.01 140
+279   2.00 200
+ Media = 279.10
+ Tempo Medio = 2.43
+ Tempo Medio CPU = 2.00
+GA instances/set-d/eon/EON-ts.W11.net instances/set-d/eon/EON-ts.trf
+293   2.00 1
+295   2.01 7
+293   2.00 14
