@@ -16,3 +16,8 @@ GA instances/set-d/eon/EON-ts.W11.net instances/set-d/eon/EON-ts.trf
 293   2.00 1
 295   2.01 7
 293   2.00 14
+GA instances/set-d/eon/EON-ts.W10 instances/set-d/eon/EON-ts
+GA instances/set-d/eon/EON-ts.W11 instances/set-d/eon/EON-ts
+GA instances/set-d/eon/EON-ts.W10.net instances/set-d/eon/EON-ts.trf
+280   60.02 1
+281   60.03 7

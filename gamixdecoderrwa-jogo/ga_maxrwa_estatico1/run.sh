@@ -12,7 +12,7 @@ echo "Resolvendo o EON para BRKGA"
 for probl in "${EON_net[@]}"
 do
  echo -e "Instancia $probl $EON_trf\n"
-  ./rwa instances/set-d/eon/$probl instances/set-d/eon/$EON_trf GA 1 0 1 >> saida.txt
+  ./rwa instances/set-d/eon/$probl.net instances/set-d/eon/$EON_trf.trf GA 1 0 1 >> saida.txt
 done
 
 
@@ -20,5 +20,5 @@ echo "Resolvendo o NSF para BRKGA"
 for probl in "${NSF_net[@]}"
 do
   echo -e "Instancia $probl $NSF_trf\n"
-  ./rwa instances/set-d/nsf/$probl instances/set-d/nsf/$EON_trf GA 1 0 1 >> saida.txt
+  ./rwa instances/set-d/nsf/$probl.net instances/set-d/nsf/$EON_trf.trf GA 1 0 1 >> saida.txt
 done
