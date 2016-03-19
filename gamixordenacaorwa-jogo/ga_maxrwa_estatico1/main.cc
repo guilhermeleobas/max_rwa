@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
     oldstime = (double)(r.ru_stime).tv_sec+(r.ru_stime).tv_usec/1000000.0;
     oldcputime = oldutime + oldcputime;
  
-    best = static_cast<int>(ga.Execute(maxIterations, target, 600)); 
+    best = static_cast<int>(ga.Execute(maxIterations, target, 60)); 
     tempo = static_cast<double>(c1.dValue()); 
    
    getrusage(RUSAGE_SELF, &r);
